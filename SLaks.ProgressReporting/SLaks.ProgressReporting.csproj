@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Display\ConsoleProgressReporter.cs" />
+    <Compile Include="Display\ScaledProgressReporter.cs" />
+    <Compile Include="Disposable.cs" />
     <Compile Include="EmptyProgressReporter.cs" />
     <Compile Include="IProgressReporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
