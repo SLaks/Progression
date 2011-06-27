@@ -29,7 +29,8 @@ namespace SLaks.ProgressReporting {
 		///<summary>Gets or sets the current progress, between 0 and Maximum.</summary>
 		long Progress { get; set; }
 
-		///<summary>Gets or sets whether the operation can be cancelled.  If this progress reporter does not allow users to cancel operations, this property will always return false.</summary>
+		///<summary>Gets or sets whether the operation can be cancelled.  The default is false.  
+		///If this progress reporter does not allow users to cancel operations, this property will always return false.</summary>
 		bool AllowCancellation { get; set; }
 		///<summary>Indicates whether the user has cancelled the operation.</summary>
 		bool WasCanceled { get; }

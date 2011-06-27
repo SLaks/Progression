@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SLaks.ProgressReporting.Display {
 	///<summary>Prints a progress bar on the console.</summary>
@@ -16,7 +15,6 @@ namespace SLaks.ProgressReporting.Display {
 		///<summary>Creates a ConsoleProgressReporter instance.</summary>
 		///<param name="showCaption">Whether to show the caption in the above the progress bar in the console.</param>
 		///<param name="width">The width of the bar in characters.  Defaults to fill the console window.</param>
-		[SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 		public ConsoleProgressReporter(bool showCaption = false, int width = -1) {
 			if (width > Console.BufferWidth - Console.CursorLeft)
 				throw new ArgumentOutOfRangeException("width", "Width must fit within the console window.");
@@ -30,7 +28,11 @@ namespace SLaks.ProgressReporting.Display {
 			originX = Console.CursorLeft;
 			originY = Console.CursorTop;
 
-			UpdateBar(-1, ScaledValue);
+			if (ShowCaption) {
+				DrawCaption(TrimCaption(null));
+				Console.CursorTop++;
+			}
+			DrawChars(blankChar, BarWidth);	//Draw the initial blank bar, and don't move the cursor back
 		}
 
 		///<summary>Indicates whether this instance has been configured to show a caption in the console.</summary>
@@ -76,12 +78,15 @@ namespace SLaks.ProgressReporting.Display {
 				retVal = value.Trim();
 
 			if (retVal.Length > BarWidth)
-				retVal = retVal.Remove(BarWidth - 1);
+				retVal = retVal.Remove(BarWidth - 1) + "…";
 			return retVal;
 		}
 		void DrawCaption(string text) {
-			using (CursorPosition(originX + (BarWidth - text.Length) / 2, originY)) {
+			double edgeWidth = (BarWidth - text.Length) / 2.0;
+			using (CursorPosition(originX, originY)) {
+				Console.Write(new string(' ', (int)Math.Ceiling(edgeWidth)));
 				Console.Write(text);
+				Console.Write(new string(' ', (int)Math.Floor(edgeWidth)));
 			}
 		}
 		#endregion
@@ -130,7 +135,7 @@ namespace SLaks.ProgressReporting.Display {
 		}
 		#endregion
 
-		///<summary>Gets or sets whether the operation can be cancelled.</summary>
+		///<summary>Gets or sets whether the operation can be cancelled.  The default is false.</summary>
 		public bool AllowCancellation { get; set; }
 
 		bool wasAlreadyCanceled;
