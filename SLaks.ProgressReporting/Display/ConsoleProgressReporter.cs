@@ -22,25 +22,38 @@ namespace SLaks.ProgressReporting.Display {
 			ShowCaption = showCaption;
 			if (width < 0) {
 				BarWidth = Console.WindowWidth - Console.CursorLeft;
+
 				//If there isn't enough room for an auto-sized bar,
 				//wrap to the next line.  Otherwise, we would crash
 				//on long lines, which wouldn't be good.
-				if (BarWidth < 3)
+				if (BarWidth < 3) {
 					Console.WriteLine();
-				BarWidth = Console.WindowWidth - Console.CursorLeft;
+					BarWidth = Console.WindowWidth - Console.CursorLeft;
+				}
 			} else if (BarWidth < 3)
 				throw new ArgumentOutOfRangeException("width", "Progress bar must be at least three characters wide");
 			else
 				BarWidth = width;
 
-			originX = Console.CursorLeft;
+			BarWidth -= 2;	//Subtract two characters for the frame
+
+			originX = Console.CursorLeft + 1;	//Add one character for the left frame
 			originY = Console.CursorTop;
 
 			if (ShowCaption) {
+				//Draw the caption and its frame
+				Console.Write('│');
 				DrawCaption(TrimCaption(null));
-				Console.CursorTop++;
+				Console.CursorLeft = originX + BarWidth;
+				Console.Write('│');
+				//Move back into position for the bar frame
+				Console.CursorLeft = originX - 1;
+				Console.CursorTop = originY + 1;
 			}
-			DrawChars(blankChar, BarWidth);	//Draw the initial blank bar, and don't move the cursor back
+			//Draw the initial blank bar & frame, and keep the cursor after the bar
+			Console.Write('│');
+			DrawChars(blankChar, BarWidth);
+			Console.Write('│');
 		}
 
 		///<summary>Indicates whether this instance has been configured to show a caption in the console.</summary>
