@@ -20,8 +20,16 @@ namespace SLaks.ProgressReporting.Display {
 				throw new ArgumentOutOfRangeException("width", "Width must fit within the console window.");
 
 			ShowCaption = showCaption;
-			if (width < 0)
+			if (width < 0) {
 				BarWidth = Console.WindowWidth - Console.CursorLeft;
+				//If there isn't enough room for an auto-sized bar,
+				//wrap to the next line.  Otherwise, we would crash
+				//on long lines, which wouldn't be good.
+				if (BarWidth < 3)
+					Console.WriteLine();
+				BarWidth = Console.WindowWidth - Console.CursorLeft;
+			} else if (BarWidth < 3)
+				throw new ArgumentOutOfRangeException("width", "Progress bar must be at least three characters wide");
 			else
 				BarWidth = width;
 
