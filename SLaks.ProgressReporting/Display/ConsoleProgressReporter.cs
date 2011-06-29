@@ -16,7 +16,7 @@ namespace SLaks.ProgressReporting.Display {
 		///<param name="showCaption">Whether to show the caption in the above the progress bar in the console.</param>
 		///<param name="width">The width of the bar in characters.  Defaults to fill the console window.</param>
 		public ConsoleProgressReporter(bool showCaption = false, int width = -1) {
-			if (width > Console.BufferWidth - Console.CursorLeft)
+			if (width > Console.BufferWidth)
 				throw new ArgumentOutOfRangeException("width", "Width must fit within the console window.");
 
 			ShowCaption = showCaption;
@@ -32,8 +32,11 @@ namespace SLaks.ProgressReporting.Display {
 				}
 			} else if (BarWidth < 3)
 				throw new ArgumentOutOfRangeException("width", "Progress bar must be at least three characters wide");
-			else
+			else {
+				if (width > Console.BufferWidth - Console.CursorLeft)
+					Console.WriteLine();	//If the bar won't fit within this line, wrap to the next line
 				BarWidth = width;
+			}
 
 			BarWidth -= 2;	//Subtract two characters for the frame
 
