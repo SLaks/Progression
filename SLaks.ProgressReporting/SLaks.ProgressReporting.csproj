@@ -59,6 +59,7 @@
     <Compile Include="Disposable.cs" />
     <Compile Include="EmptyProgressReporter.cs" />
     <Compile Include="IProgressReporter.cs" />
+    <Compile Include="ProgressReporterExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
