@@ -159,9 +159,16 @@ namespace SLaks.ProgressReporting.Display {
 		}
 		#endregion
 
+		bool allowCancellation;
 		///<summary>Gets or sets whether the operation can be cancelled.  The default is false.</summary>
-		public bool AllowCancellation { get; set; }
-
+		///<remarks>Setting this property will reset <see cref="WasCanceled"/>.</remarks>
+		public bool AllowCancellation {
+			get { return allowCancellation; }
+			set {
+				allowCancellation = value;
+				wasAlreadyCanceled = false;
+			}
+		}
 		bool wasAlreadyCanceled;
 		///<summary>Indicates whether the user has cancelled the operation.</summary>
 		public bool WasCanceled {

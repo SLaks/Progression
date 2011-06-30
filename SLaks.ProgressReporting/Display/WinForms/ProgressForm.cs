@@ -18,20 +18,20 @@ namespace SLaks.ProgressReporting.Display.WinForms {
 		///<param name="method">The method to execute on the background thread.</param>
 		///<param name="cancellable">Indicates whether the user can cancel the operation.</param>
 		///<returns>False if the cancel button was clicked.</returns>
-		public static bool Execute(Action<IProgressReporter> method, bool cancellable=false) { return Execute(null, method, cancellable); }
+		public static bool Execute(Action<IProgressReporter> method, bool cancellable = false) { return Execute(null, method, cancellable); }
 		///<summary>Executes an operation and displays its progress.</summary>
 		///<param name="parent">The form that will own the progress display.  This parameter can be null.</param>
 		///<param name="method">The method to execute on the background thread.</param>
 		///<param name="cancellable">Indicates whether the user can cancel the operation.</param>
 		///<returns>False if the cancel button was clicked.</returns>
 		[SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cross-thread exception marshalling")]
-		public static bool Execute(IWin32Window parent, Action<IProgressReporter> method, bool cancellable=false) {
+		public static bool Execute(IWin32Window parent, Action<IProgressReporter> method, bool cancellable = false) {
 			if (method == null) throw new ArgumentNullException("method");
 
 			Exception exception = null;
 
 			bool canceled = false, finished = true;
-			using (var dialog = new ProgressForm() ) {
+			using (var dialog = new ProgressForm()) {
 				dialog.AllowCancellation = cancellable;
 				dialog.Show();
 
@@ -91,11 +91,12 @@ namespace SLaks.ProgressReporting.Display.WinForms {
 		}
 
 		///<summary>Gets or sets whether the operation can be cancelled.  The default is false.</summary>
+		///<remarks>Setting this property will reset <see cref="WasCanceled"/>.</remarks>
 		public bool AllowCancellation {
 			get { return cancelButton.Visible; }	//Visible can be read from non-UI threads.
 			set {
 				if (AllowCancellation == value) return;
-				Invoke(new Action(delegate {
+				Invoke(new Action(delegate {	//This must be synchronous or the property value won't be reflected right away
 					cancelButton.Visible = value;
 					if (value)
 						progressBar.Width -= cancelWidthDelta;

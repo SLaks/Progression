@@ -31,6 +31,7 @@ namespace SLaks.ProgressReporting {
 
 		///<summary>Gets or sets whether the operation can be cancelled.  The default is false.  
 		///If this progress reporter does not allow users to cancel operations, this property will always return false.</summary>
+		///<remarks>Setting this property will reset <see cref="WasCanceled"/>.</remarks>
 		bool AllowCancellation { get; set; }
 		///<summary>Indicates whether the user has cancelled the operation.</summary>
 		bool WasCanceled { get; }
