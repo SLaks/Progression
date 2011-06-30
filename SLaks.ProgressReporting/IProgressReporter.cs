@@ -25,6 +25,7 @@ namespace SLaks.ProgressReporting {
 		string Caption { get; set; }
 
 		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.</summary>
+		///<remarks>Setting this property will reset Progress to 0.</remarks>
 		long Maximum { get; set; }
 		///<summary>Gets or sets the current progress, between 0 and Maximum.</summary>
 		long Progress { get; set; }

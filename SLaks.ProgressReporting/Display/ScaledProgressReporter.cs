@@ -25,6 +25,7 @@ namespace SLaks.ProgressReporting.Display {
 		protected abstract void UpdateBar(int oldValue, int newValue);
 
 		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.</summary>
+		///<remarks>Setting this property will reset Progress to 0.</remarks>
 		public virtual long Maximum {
 			get { return maximum; }
 			set {
@@ -34,7 +35,7 @@ namespace SLaks.ProgressReporting.Display {
 					throw new ArgumentOutOfRangeException("value");
 
 				maximum = value;
-				value = 0;
+				progress = 0;
 				Update();
 			}
 		}
