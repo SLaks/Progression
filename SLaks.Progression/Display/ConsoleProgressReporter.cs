@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SLaks.ProgressReporting.Display {
+namespace SLaks.Progression.Display {
 	///<summary>Prints a progress bar on the console.</summary>
 	///<remarks>
 	///The progress bar is one line tall, or two if configured to show a caption.

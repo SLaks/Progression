@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SLaks.ProgressReporting.Display;
+using SLaks.Progression.Display;
 
-namespace SLaks.ProgressReporting {
+namespace SLaks.Progression {
 	///<summary>Contains extension methods for progress reporters.</summary>
 	public static class ProgressReporterExtensions {
 		///<summary>Returns an IProgressReporter that adds progress to an existing reporter without affecting the maximum.</summary>

@@ -1,4 +1,4 @@
-﻿namespace SLaks.ProgressReporting.Display.WinForms {
+﻿namespace SLaks.Progression.Display.WinForms {
 	partial class ProgressForm {
 		/// <summary>
 		/// Required designer variable.

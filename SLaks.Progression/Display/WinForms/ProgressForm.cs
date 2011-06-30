@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace SLaks.ProgressReporting.Display.WinForms {
+namespace SLaks.Progression.Display.WinForms {
 	///<summary>An IProgressReporter implementation that displays progress in a small popup form.  Supports captions and cancellation.</summary>
 	public partial class ProgressForm : Form, IProgressReporter {
 		#region Helpers

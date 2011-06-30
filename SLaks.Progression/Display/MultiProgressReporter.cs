@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 
-namespace SLaks.ProgressReporting.Display {
+namespace SLaks.Progression.Display {
 	///<summary>An <see cref="IProgressReporter"/> implementation that displays progress on multiple other <see cref="IProgressReporter"/>s.</summary>
 	public class MultiProgressReporter : IProgressReporter {
 		///<summary>Creates a MultiProgressReporter that forwards to the specified set of child reporters.</summary>

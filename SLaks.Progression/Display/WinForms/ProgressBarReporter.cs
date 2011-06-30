@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SLaks.ProgressReporting.Display.WinForms {
+namespace SLaks.Progression.Display.WinForms {
 	///<summary>An IProgressReporter implementation that displays progress on a WinForms progress bar control.  Does not support captions or cancellation.</summary>
 	public class ProgressBarReporter : ScaledProgressReporter, IProgressReporter {
 		readonly ProgressBarStyle defaultStyle;

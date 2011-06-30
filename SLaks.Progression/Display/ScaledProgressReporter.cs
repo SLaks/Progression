@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SLaks.ProgressReporting.Display {
+namespace SLaks.Progression.Display {
 	///<summary>A base class for a progress reporter that scales progress values to a fixed maximum.</summary>
 	public abstract class ScaledProgressReporter {
 		long progress = 0, maximum = 100;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SLaks.ProgressReporting {
+namespace SLaks.Progression {
 	///<summary>Displays the progress of an operation.</summary>
 	///<remarks>
 	///	<para>

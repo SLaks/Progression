@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SLaks.ProgressReporting;
-using SLaks.ProgressReporting.Display;
+using SLaks.Progression;
+using SLaks.Progression.Display;
 using System.Threading;
 
 namespace ConsoleProgressDemo {

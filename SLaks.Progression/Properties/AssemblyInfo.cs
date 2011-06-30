@@ -7,11 +7,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SLaks.ProgressReporting")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SLaks.Progression")]
+[assembly: AssemblyDescription("Allows business logic to report progress without coupling to the UI")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("SLaks.ProgressReporting")]
+[assembly: AssemblyProduct("SLaks.Progression")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

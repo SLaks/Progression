@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SLaks.ProgressReporting {
+namespace SLaks.Progression {
 	///<summary>A placeholder ProgressReporter implementation that doesn't do anything.</summary>
 	///<remarks>
 	///	<para>
