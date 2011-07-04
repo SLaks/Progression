@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleProgressDemo", "Exam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{249F5107-9A0D-4BE9-99F1-68D2260184C3}"
 	ProjectSection(SolutionItems) = preProject
+		CodeCoverage.testsettings = CodeCoverage.testsettings
 		Local.testsettings = Local.testsettings
 		Progression.vsmdi = Progression.vsmdi
 		SLaks Rules.ruleset = SLaks Rules.ruleset
