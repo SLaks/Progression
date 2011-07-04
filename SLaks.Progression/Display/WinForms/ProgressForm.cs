@@ -66,13 +66,13 @@ namespace SLaks.Progression.Display.WinForms {
 		}
 
 		readonly ProgressBarReporter barReporter;
-		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.</summary>
+		///<summary>Gets or sets the progress value at which the operation will be completed.</summary>
 		public long Maximum {
 			get { return barReporter.Maximum; }
 			set { barReporter.Maximum = value; }
 		}
-		///<summary>Gets or sets the current progress, between 0 and Maximum.</summary>
-		public long Progress {
+		///<summary>Gets or sets the current progress, between 0 and Maximum, or null to display a marquee.</summary>
+		public long? Progress {
 			get { return barReporter.Progress; }
 			set { barReporter.Progress = value; }
 		}

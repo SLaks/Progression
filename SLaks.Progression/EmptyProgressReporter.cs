@@ -22,10 +22,10 @@ namespace SLaks.Progression {
 		///<summary>Gets or sets a string describing the current operation.  This property has no effect.</summary>
 		public string Caption { get; set; }
 
-		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.  This property has no effect.</summary>
+		///<summary>Gets or sets the progress value at which the operation will be completed.  This property has no effect.</summary>
 		public long Maximum { get; set; }
 		///<summary>Gets or sets the current progress, between 0 and Maximum.  This property has no effect.</summary>
-		public long Progress { get; set; }
+		public long? Progress { get; set; }
 
 		///<summary>Always returns false.</summary>
 		public bool AllowCancellation {

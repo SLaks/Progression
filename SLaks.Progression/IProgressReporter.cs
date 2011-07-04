@@ -24,11 +24,11 @@ namespace SLaks.Progression {
 		///<summary>Gets or sets a string describing the current operation to display above the progress bar.</summary>
 		string Caption { get; set; }
 
-		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.</summary>
+		///<summary>Gets or sets the progress value at which the operation will be completed.</summary>
 		///<remarks>Setting this property will reset Progress to 0.</remarks>
 		long Maximum { get; set; }
-		///<summary>Gets or sets the current progress, between 0 and Maximum.</summary>
-		long Progress { get; set; }
+		///<summary>Gets or sets the current progress, between 0 and Maximum, or null to display marquee.</summary>
+		long? Progress { get; set; }
 
 		///<summary>Gets or sets whether the operation can be cancelled.  The default is false.  
 		///If this progress reporter does not allow users to cancel operations, this property will always return false.</summary>

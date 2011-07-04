@@ -6,7 +6,8 @@ using System.Text;
 namespace SLaks.Progression.Display {
 	///<summary>A base class for a progress reporter that scales progress values to a fixed maximum.</summary>
 	public abstract class ScaledProgressReporter {
-		long progress = 0, maximum = 100;
+		long? progress = 0;
+		long maximum = 100;
 
 		///<summary>Gets the maximum that the progress bar's value will be scaled to.</summary>
 		protected abstract int ScaledMax { get; }
@@ -14,25 +15,23 @@ namespace SLaks.Progression.Display {
 		protected int ScaledValue { get; private set; }
 
 		private void Update() {
-			int oldValue = ScaledValue;
-			int newValue = Maximum < 0 ? -1 : (int)((double)Progress / Maximum * ScaledMax);
+			int? oldValue = ScaledValue;
+			int? newValue = (int?)((double?)Progress / Maximum * ScaledMax);
 			if (newValue == oldValue) return;
 
-			ScaledValue = newValue;
+			ScaledValue = newValue ?? -1;
 			UpdateBar(oldValue, newValue);
 		}
 		///<summary>Draws an updated progress bar.</summary>
-		protected abstract void UpdateBar(int oldValue, int newValue);
+		protected abstract void UpdateBar(int? oldValue, int? newValue);
 
-		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.</summary>
+		///<summary>Gets or sets the progress value at which the operation will be completed.</summary>
 		///<remarks>Setting this property will reset Progress to 0.</remarks>
 		public virtual long Maximum {
 			get { return maximum; }
 			set {
-				if (value < 0)
-					value = -1;
-				else if (value == 0)
-					throw new ArgumentOutOfRangeException("value");
+				if (value <= 0)
+				throw	new ArgumentOutOfRangeException("value");
 
 				maximum = value;
 				progress = 0;
@@ -40,8 +39,8 @@ namespace SLaks.Progression.Display {
 			}
 		}
 
-		///<summary>Gets or sets the current progress, between 0 and Maximum.</summary>
-		public virtual long Progress {
+		///<summary>Gets or sets the current progress, between 0 and Maximum, or null to display a marquee.</summary>
+		public virtual long? Progress {
 			get { return progress; }
 			set {
 				if (value < 0 || value > Maximum)

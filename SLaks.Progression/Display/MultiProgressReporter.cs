@@ -31,13 +31,13 @@ namespace SLaks.Progression.Display {
 			set { foreach (var r in Reporters)r.Caption = value; }
 		}
 
-		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.</summary>
+		///<summary>Gets or sets the progress value at which the operation will be completed.</summary>
 		public long Maximum {
 			get { return Reporters[0].Maximum; }
 			set { foreach (var r in Reporters)r.Maximum = value; }
 		}
-		///<summary>Gets or sets the current progress, between 0 and Maximum.</summary>
-		public long Progress {
+		///<summary>Gets or sets the current progress, between 0 and Maximum, or null to display a marquee.</summary>
+		public long? Progress {
 			get { return Reporters[0].Progress; }
 			set { foreach (var r in Reporters)r.Progress = value; }
 		}

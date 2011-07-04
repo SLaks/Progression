@@ -123,11 +123,11 @@ namespace SLaks.Progression.Display {
 		protected override int ScaledMax { get { return BarWidth; } }
 
 		///<summary>Draws the progress bar to the console.</summary>
-		protected override void UpdateBar(int oldValue, int newValue) {
+		protected override void UpdateBar(int? oldValue, int? newValue) {
 			int barY = originY;
 			if (ShowCaption) barY++;
 
-			if (newValue < 0) {
+			if (newValue == null) {
 				//Marquee bar; there isn't much scope for a marquee bar on the console
 				//TODO: Optional animation; bounce a spinner back and forth.
 				using (CursorPosition(originX, barY))
@@ -135,20 +135,20 @@ namespace SLaks.Progression.Display {
 				return;
 			}
 
-			if (oldValue < 0) {
+			if (oldValue ==null) {
 				//Draw entire bar
 				using (CursorPosition(originX, barY)) {
-					DrawChars(barChar, newValue);
-					DrawChars(blankChar, BarWidth - newValue);
+					DrawChars(barChar, newValue.Value);
+					DrawChars(blankChar, BarWidth - newValue.Value);
 				}
 			} else {
 				//Only draw the portion that changed
 				if (newValue > oldValue) {
-					using (CursorPosition(originX + oldValue, barY))
-						DrawChars(barChar, newValue - oldValue);
+					using (CursorPosition(originX + oldValue.Value, barY))
+						DrawChars(barChar, newValue.Value - oldValue.Value);
 				} else {
-					using (CursorPosition(originX + newValue, barY))
-						DrawChars(blankChar, oldValue - newValue);
+					using (CursorPosition(originX + newValue.Value, barY))
+						DrawChars(blankChar, oldValue.Value - newValue.Value);
 				}
 			}
 		}

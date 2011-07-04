@@ -38,11 +38,11 @@ namespace SLaks.Progression.Display.WinForms {
 		}
 
 		///<summary>Updates the progress bar control to reflect the current progress.</summary>
-		protected override void UpdateBar(int oldValue, int newValue) {
+		protected override void UpdateBar(int? oldValue, int? newValue) {
 			Bar.BeginInvoke(new Action(() => {
-				Bar.Style = newValue < 0 ? ProgressBarStyle.Marquee : defaultStyle;
-				if (newValue >= 0)
-					Bar.Value = newValue;
+				Bar.Style = newValue == null ? ProgressBarStyle.Marquee : defaultStyle;
+				if (newValue != null)
+					Bar.Value = newValue.Value;
 			}));
 		}
 

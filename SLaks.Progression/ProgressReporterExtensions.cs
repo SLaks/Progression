@@ -12,14 +12,14 @@ namespace SLaks.Progression {
 		///the maximum of the original reporter is expected to equal the sum of the maximums of the child operations.</remarks>
 		public static IProgressReporter ChildOperation(this IProgressReporter reporter) {
 			if (reporter == null) return new EmptyProgressReporter();
-			if (reporter.Maximum < 0) throw new ArgumentException("Child operations cannot be started on an indeterminate progress reporter.", "reporter");
+			if (reporter.Progress == null) throw new ArgumentException("Child operations cannot be started on an indeterminate progress reporter.", "reporter");
 			return new ChildReporter(reporter, null);
 		}
 		///<summary>Returns an IProgressReporter that adds progress to an existing reporter, scaled to a given range within the parent reporter.</summary>
 		///<remarks>The maximum of the original reporter is expected to equal the sum of the ranges of the child operations.</remarks>
 		public static IProgressReporter ScaledChildOperation(this IProgressReporter reporter, long range) {
 			if (reporter == null) return new EmptyProgressReporter();
-			if (reporter.Maximum < 0) throw new ArgumentException("Child operations cannot be started on an indeterminate progress reporter.", "reporter");
+			if (reporter.Progress == null) throw new ArgumentException("Child operations cannot be started on an indeterminate progress reporter.", "reporter");
 			return new ChildReporter(reporter, range);
 		}
 
@@ -29,7 +29,7 @@ namespace SLaks.Progression {
 			public ChildReporter(IProgressReporter parent, long? range) {
 				this.parent = parent;
 				parentRange = range;
-				parentStart = parent.Progress;
+				parentStart = parent.Progress.Value;
 			}
 
 			readonly IProgressReporter parent;
@@ -51,31 +51,32 @@ namespace SLaks.Progression {
 
 			public bool WasCanceled { get { return AllowCancellation && parent.WasCanceled; } }
 
-			long maximum, progress;
+			long? progress;
+			long maximum;
 			public long Maximum {
 				get { return maximum; }
 				set {
-					if (value < 0)
-						value = -1;
-					else if (value == 0)
+					if (value <= 0)
 						throw new ArgumentOutOfRangeException("value");
 
 					maximum = value;
-					if (value >= 0)
-						Progress = 0;
+					Progress = 0;
 				}
 			}
 
-			public long Progress {
+			public long? Progress {
 				get { return progress; }
 				set {
 					if (value < 0 || value > Maximum)
 						throw new ArgumentOutOfRangeException("value", "Progress must be between 0 and " + Maximum);
 					progress = value;
-					if (parentRange == null)
-						parent.Progress = parentStart + value;
-					else
-						parent.Progress = parentStart + (int)((double)value / Maximum * parentRange);
+
+					if (value != null) {
+						if (parentRange == null)
+							parent.Progress = parentStart + value;
+						else
+							parent.Progress = parentStart + (int)((double)value / Maximum * parentRange);
+					}
 				}
 			}
 		}
