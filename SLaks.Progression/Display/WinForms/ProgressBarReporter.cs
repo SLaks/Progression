@@ -28,11 +28,10 @@ namespace SLaks.Progression.Display.WinForms {
 		public override long Maximum {
 			get { return base.Maximum; }
 			set {
-				if (value == 0)
+				if (value <= 0)
 					throw new ArgumentOutOfRangeException("value");
-				else if (value > 0)	//Try to use the original maximum and avoid scaling, if it fits.
-					Bar.Maximum = (int)Math.Min(131072, value);	//According to the source, this can be set on other threads.
 
+				Bar.Maximum = (int)Math.Min(131072, value);	//According to the source, this can be set on other threads.
 				base.Maximum = value;
 			}
 		}

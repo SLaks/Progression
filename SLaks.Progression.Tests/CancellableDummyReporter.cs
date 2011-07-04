@@ -8,12 +8,12 @@ namespace SLaks.Progression.Tests {
 	class CancellableDummyReporter : EmptyProgressReporter, IProgressReporter {
 		bool allowCancellation, wasCanceled;
 
-		public bool AllowCancellation {
+		public new bool AllowCancellation {
 			get { return allowCancellation; }
 			set { allowCancellation = value; wasCanceled = false; }
 		}
 
-		public bool WasCanceled { get { return wasCanceled; } }
+		public new bool WasCanceled { get { return wasCanceled; } }
 
 		public void Cancel() {
 			if (!AllowCancellation) throw new InvalidOperationException();

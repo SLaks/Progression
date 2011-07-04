@@ -12,14 +12,14 @@ namespace SLaks.Progression {
 		///the maximum of the original reporter is expected to equal the sum of the maximums of the child operations.</remarks>
 		public static IProgressReporter ChildOperation(this IProgressReporter reporter) {
 			if (reporter == null) return new EmptyProgressReporter();
-			if (reporter.Progress == null) throw new ArgumentException("Child operations cannot be started on an indeterminate progress reporter.", "reporter");
+			if (reporter.Progress == null) throw new InvalidOperationException("Child operations cannot be started on an indeterminate progress reporter.");
 			return new ChildReporter(reporter, null);
 		}
 		///<summary>Returns an IProgressReporter that adds progress to an existing reporter, scaled to a given range within the parent reporter.</summary>
 		///<remarks>The maximum of the original reporter is expected to equal the sum of the ranges of the child operations.</remarks>
 		public static IProgressReporter ScaledChildOperation(this IProgressReporter reporter, long range) {
 			if (reporter == null) return new EmptyProgressReporter();
-			if (reporter.Progress == null) throw new ArgumentException("Child operations cannot be started on an indeterminate progress reporter.", "reporter");
+			if (reporter.Progress == null) throw new InvalidOperationException("Child operations cannot be started on an indeterminate progress reporter.");
 			return new ChildReporter(reporter, range);
 		}
 
