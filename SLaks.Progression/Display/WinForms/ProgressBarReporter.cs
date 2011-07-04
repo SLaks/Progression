@@ -37,13 +37,19 @@ namespace SLaks.Progression.Display.WinForms {
 			}
 		}
 
+		void LazyInvoke(Action a) {
+			if (Bar.InvokeRequired)
+				Bar.BeginInvoke(a);
+			else
+				a();
+		}
 		///<summary>Updates the progress bar control to reflect the current progress.</summary>
 		protected override void UpdateBar(int? oldValue, int? newValue) {
-			Bar.BeginInvoke(new Action(() => {
+			LazyInvoke(delegate {
 				Bar.Style = newValue == null ? ProgressBarStyle.Marquee : defaultStyle;
 				if (newValue != null)
 					Bar.Value = newValue.Value;
-			}));
+			});
 		}
 
 		///<summary>Gets or sets a caption for the current operation.  This property is ignored.</summary>

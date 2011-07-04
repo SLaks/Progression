@@ -22,10 +22,29 @@ namespace SLaks.Progression {
 		///<summary>Gets or sets a string describing the current operation.  This property has no effect.</summary>
 		public string Caption { get; set; }
 
+		long maximum = 100;
+		long? progress = 0;
 		///<summary>Gets or sets the progress value at which the operation will be completed.  This property has no effect.</summary>
-		public long Maximum { get; set; }
+		public virtual long Maximum {
+			get { return maximum; }
+			set {
+				if (value <= 0)
+					throw new ArgumentOutOfRangeException("value");
+
+				maximum = value;
+				progress = 0;
+			}
+		}
+
 		///<summary>Gets or sets the current progress, between 0 and Maximum.  This property has no effect.</summary>
-		public long? Progress { get; set; }
+		public virtual long? Progress {
+			get { return progress; }
+			set {
+				if (value < 0 || value > Maximum)
+					throw new ArgumentOutOfRangeException("value", "Progress must be between 0 and " + Maximum);
+				progress = value;
+			}
+		}
 
 		///<summary>Always returns false.</summary>
 		public bool AllowCancellation {

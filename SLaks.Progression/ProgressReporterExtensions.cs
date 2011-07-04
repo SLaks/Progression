@@ -51,7 +51,7 @@ namespace SLaks.Progression {
 
 			public bool WasCanceled { get { return AllowCancellation && parent.WasCanceled; } }
 
-			long? progress;
+			long? progress = 0;
 			long maximum = 100;
 			public long Maximum {
 				get { return maximum; }
