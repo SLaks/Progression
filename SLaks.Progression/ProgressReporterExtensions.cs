@@ -20,6 +20,7 @@ namespace SLaks.Progression {
 		public static IProgressReporter ScaledChildOperation(this IProgressReporter reporter, long range) {
 			if (reporter == null) return new EmptyProgressReporter();
 			if (reporter.Progress == null) throw new InvalidOperationException("Child operations cannot be started on an indeterminate progress reporter.");
+			if (range <= 0) throw new ArgumentOutOfRangeException("range");
 			return new ChildReporter(reporter, range);
 		}
 

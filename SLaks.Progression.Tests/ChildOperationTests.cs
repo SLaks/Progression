@@ -11,6 +11,17 @@ namespace SLaks.Progression.Tests {
 			return new CancellableDummyReporter { AllowCancellation = true }.ChildOperation();
 		}
 
+		[TestMethod]
+		public void SupportsNullParent() {
+			Assert.IsInstanceOfType(ProgressReporterExtensions.ChildOperation(null), typeof(EmptyProgressReporter));
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void CantStartWithIndeterminate() {
+			new EmptyProgressReporter { Progress = null }.ChildOperation();
+		}
+
 		public override bool SupportsCancellation { get { return true; } }
 		[TestMethod]
 		public void ParentCaptionIsUpdated() {
@@ -47,6 +58,22 @@ namespace SLaks.Progression.Tests {
 	public class ScaledChildOperationTest : ProgressReporterTestBase {
 		protected override IProgressReporter CreateReporter() {
 			return new CancellableDummyReporter { AllowCancellation = true }.ScaledChildOperation(50);
+		}
+
+		[TestMethod]
+		public void SupportsNullParent() {
+			Assert.IsInstanceOfType(ProgressReporterExtensions.ScaledChildOperation(null, 2), typeof(EmptyProgressReporter));
+		}
+		
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void CantStartWithIndeterminate() {
+			new EmptyProgressReporter { Progress = null }.ScaledChildOperation(2);
+		}
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentOutOfRangeException))]
+		public void RangeMustBePositive() {
+			new EmptyProgressReporter().ScaledChildOperation(0);
 		}
 
 		public override bool SupportsCancellation { get { return true; } }

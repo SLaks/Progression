@@ -69,6 +69,13 @@ namespace SLaks.Progression.Tests {
 			Assert.AreEqual(0, pr.Progress, "Setting Maximum should reset progress to 0");
 		}
 
+		[TestMethod]
+		public void IndeterminateWorks() {
+			var pr = CreateReporter();
+			pr.Progress = null;
+			Assert.IsNull(pr.Progress);
+		}
+
 		#region Exceptions
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
