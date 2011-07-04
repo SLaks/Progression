@@ -16,24 +16,21 @@ namespace SLaks.Progression.Display.WinForms {
 		#region Helpers
 		///<summary>Executes an operation and displays its progress.</summary>
 		///<param name="method">The method to execute on the background thread.</param>
-		///<param name="cancellable">Indicates whether the user can cancel the operation.</param>
-		///<returns>False if the cancel button was clicked.</returns>
-		public static bool Execute(Action<IProgressReporter> method, bool cancellable = false) { return Execute(null, method, cancellable); }
+		///<returns>False if operation was cancelled.</returns>
+		public static bool Execute(Action<IProgressReporter> method) { return Execute(null,method); }
 		///<summary>Executes an operation and displays its progress.</summary>
 		///<param name="parent">The form that will own the progress display.  This parameter can be null.</param>
 		///<param name="method">The method to execute on the background thread.</param>
-		///<param name="cancellable">Indicates whether the user can cancel the operation.</param>
-		///<returns>False if the cancel button was clicked.</returns>
+		///<returns>False if operation was cancelled.</returns>
 		[SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cross-thread exception marshalling")]
-		public static bool Execute(IWin32Window parent, Action<IProgressReporter> method, bool cancellable = false) {
+		public static bool Execute(IWin32Window parent, Action<IProgressReporter> method) {
 			if (method == null) throw new ArgumentNullException("method");
 
 			Exception exception = null;
 
 			bool canceled = false, finished = true;
 			using (var dialog = new ProgressForm()) {
-				dialog.AllowCancellation = cancellable;
-				dialog.Show();
+				dialog.Show(parent);
 
 				ThreadPool.QueueUserWorkItem(delegate {
 					try {
@@ -47,7 +44,7 @@ namespace SLaks.Progression.Display.WinForms {
 					canceled = dialog.WasCanceled;
 				});
 				if (!dialog.IsDisposed && !finished)
-					dialog.ShowDialog(parent);
+					dialog.ShowDialog(parent);	//Only show modally if the operation hasn't finished yet; this avoids a brief flicker for very quick operations
 			}
 			if (exception != null)
 				throw new TargetInvocationException(exception);

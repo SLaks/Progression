@@ -12,10 +12,14 @@ namespace SLaks.Progression.Display {
 		#region Settings
 		readonly int originX, originY;
 
+		///<summary>Creates a ConsoleProgressReporter instance that fills the remainder of the current line in the console.</summary>
+		///<param name="showCaption">Whether to show the caption in the above the progress bar in the console.</param>
+		public ConsoleProgressReporter(bool showCaption) : this(showCaption, -1) { }
+
 		///<summary>Creates a ConsoleProgressReporter instance.</summary>
 		///<param name="showCaption">Whether to show the caption in the above the progress bar in the console.</param>
-		///<param name="width">The width of the bar in characters.  Defaults to fill the console window.</param>
-		public ConsoleProgressReporter(bool showCaption = false, int width = -1) {
+		///<param name="width">The width of the bar in characters.</param>
+		public ConsoleProgressReporter(bool showCaption, int width) {
 			if (width > Console.BufferWidth)
 				throw new ArgumentOutOfRangeException("width", "Width must fit within the console window.");
 
@@ -96,7 +100,7 @@ namespace SLaks.Progression.Display {
 
 		string TrimCaption(string value) {
 			string retVal;
-			if (String.IsNullOrWhiteSpace(value))
+			if (String.IsNullOrEmpty(value))
 				retVal = "Please wait";
 			else
 				retVal = value.Trim();
@@ -135,7 +139,7 @@ namespace SLaks.Progression.Display {
 				return;
 			}
 
-			if (oldValue ==null) {
+			if (oldValue == null) {
 				//Draw entire bar
 				using (CursorPosition(originX, barY)) {
 					DrawChars(barChar, newValue.Value);
