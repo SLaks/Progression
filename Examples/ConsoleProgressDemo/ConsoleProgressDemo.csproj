@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SLaks.ProgressReporting\SLaks.Progression.csproj">
+    <ProjectReference Include="..\..\SLaks.Progression\SLaks.Progression.csproj">
       <Project>{96A94E64-924A-4AAD-9A73-9C9A82CF8F18}</Project>
       <Name>SLaks.Progression</Name>
     </ProjectReference>
