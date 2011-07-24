@@ -38,3 +38,11 @@ using System.Resources;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
+
+
+#if SIGN
+//Only the Release build is signed
+#pragma warning disable 1699
+[assembly: AssemblyKeyName("SLaks")]
+#pragma warning restore 1699
+#endif

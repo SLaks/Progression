@@ -1,3 +1,4 @@
+*.pfx
 
 #VS Extensions
 *.vs10x
