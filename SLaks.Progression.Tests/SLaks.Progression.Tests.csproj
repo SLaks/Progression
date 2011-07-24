@@ -38,7 +38,12 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -46,15 +51,16 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundWorkerReporterTest.cs" />
+    <Compile Include="Display\BackgroundWorkerReporterTest.cs" />
     <Compile Include="CancellableDummyReporter.cs" />
     <Compile Include="ChildOperationTests.cs" />
-    <Compile Include="EmptyProgressReporterTest.cs" />
-    <Compile Include="MultiProgressReporterTest.cs" />
-    <Compile Include="ProgressBarReporterTest.cs" />
-    <Compile Include="ProgressFormTest.cs" />
+    <Compile Include="Display\EmptyProgressReporterTest.cs" />
+    <Compile Include="Display\MultiProgressReporterTest.cs" />
+    <Compile Include="Display\ProgressBarReporterTest.cs" />
+    <Compile Include="Display\ProgressFormTest.cs" />
+    <Compile Include="ProgressOperationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProgressReporterTestBase.cs" />
+    <Compile Include="Display\ProgressReporterTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SLaks.Progression\SLaks.Progression.csproj">
@@ -62,6 +68,7 @@
       <Name>SLaks.Progression</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
