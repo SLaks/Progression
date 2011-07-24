@@ -46,6 +46,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundWorkerReporterTest.cs" />
     <Compile Include="CancellableDummyReporter.cs" />
     <Compile Include="ChildOperationTests.cs" />
     <Compile Include="EmptyProgressReporterTest.cs" />
