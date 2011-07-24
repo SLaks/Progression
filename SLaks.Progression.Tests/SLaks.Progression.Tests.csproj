@@ -51,6 +51,7 @@
     <Compile Include="EmptyProgressReporterTest.cs" />
     <Compile Include="MultiProgressReporterTest.cs" />
     <Compile Include="ProgressBarReporterTest.cs" />
+    <Compile Include="ProgressFormTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProgressReporterTestBase.cs" />
   </ItemGroup>

@@ -17,7 +17,7 @@ namespace SLaks.Progression.Display.WinForms {
 		///<summary>Executes an operation and displays its progress.</summary>
 		///<param name="method">The method to execute on the background thread.</param>
 		///<returns>False if operation was cancelled.</returns>
-		public static bool Execute(Action<IProgressReporter> method) { return Execute(null,method); }
+		public static bool Execute(Action<IProgressReporter> method) { return Execute(null, method); }
 		///<summary>Executes an operation and displays its progress.</summary>
 		///<param name="parent">The form that will own the progress display.  This parameter can be null.</param>
 		///<param name="method">The method to execute on the background thread.</param>
@@ -28,7 +28,7 @@ namespace SLaks.Progression.Display.WinForms {
 
 			Exception exception = null;
 
-			bool canceled = false, finished = true;
+			bool canceled = false, finished = false;
 			using (var dialog = new ProgressForm()) {
 				dialog.Show(parent);
 
@@ -38,13 +38,15 @@ namespace SLaks.Progression.Display.WinForms {
 					} catch (Exception ex) {
 						exception = ex;
 					} finally {
+						canceled = dialog.WasCanceled;
 						finished = true;
-						dialog.Hide();
+						dialog.BeginInvoke(new Action(dialog.Close));
 					}
-					canceled = dialog.WasCanceled;
 				});
-				if (!dialog.IsDisposed && !finished)
+				if (!dialog.IsDisposed && !finished) {
+					dialog.Hide();
 					dialog.ShowDialog(parent);	//Only show modally if the operation hasn't finished yet; this avoids a brief flicker for very quick operations
+				}
 			}
 			if (exception != null)
 				throw new TargetInvocationException(exception);
@@ -87,22 +89,25 @@ namespace SLaks.Progression.Display.WinForms {
 			set { LazyInvoke(() => label.Text = value); }
 		}
 
+		bool allowCancel = true;		//The UI in the designer reflects AllowCancellation == true.  The ctor sets it to false
 		///<summary>Gets or sets whether the operation can be cancelled.  The default is false.</summary>
 		///<remarks>Setting this property will reset <see cref="WasCanceled"/>.</remarks>
 		public bool AllowCancellation {
-			get { return cancelButton.Visible; }	//Visible can be read from non-UI threads.
+			get { return allowCancel; }
 			set {
 				if (AllowCancellation == value) return;
-				Invoke(new Action(delegate {	//This must be synchronous or the property value won't be reflected right away
+				allowCancel = value;
+				WasCanceled = false;
+
+				LazyInvoke(delegate {
 					cancelButton.Visible = value;
+					cancelButton.Enabled = true;
+
 					if (value)
 						progressBar.Width -= cancelWidthDelta;
 					else
 						progressBar.Width += cancelWidthDelta;
-
-					WasCanceled = false;
-					cancelButton.Enabled = true;
-				}));
+				});
 			}
 		}
 		///<summary>Indicates whether the user has clicked Cancel.</summary>
@@ -110,7 +115,7 @@ namespace SLaks.Progression.Display.WinForms {
 
 		private void cancelButton_Click(object sender, EventArgs e) {
 			WasCanceled = true;
-			cancelButton.Enabled = true;
+			cancelButton.Enabled = false;	//Once the user has canceled, disable the button, since there is no further point in clicking it
 		}
 	}
 }

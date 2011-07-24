@@ -34,9 +34,14 @@ namespace SLaks.Progression.Tests {
 			pr.Caption = "Doing stuff";
 			foreach (var ch in pr.Reporters)
 				Assert.AreEqual("Doing stuff", ch.Caption);
+		}
+
+		[TestMethod]
+		public void CancellationWorks() {
+			var cdr = new CancellableDummyReporter();
+			var pr = new MultiProgressReporter(new EmptyProgressReporter(), cdr);
 
 			pr.AllowCancellation = true;
-			var cdr = pr.Reporters.OfType<CancellableDummyReporter>().Single();
 			Assert.IsTrue(cdr.AllowCancellation);
 			cdr.Cancel();
 			Assert.IsTrue(pr.WasCanceled);
