@@ -38,6 +38,10 @@ namespace SLaks.Progression.Tests {
 			Assert.IsFalse(ProgressForm.Execute(pr => {
 				pr.AllowCancellation = true;
 
+				//I need to wait for the form to be shown by 
+				//the UI thread before calling PerformClick()
+				System.Threading.Thread.Sleep(300);	
+
 				var f = (ProgressForm)pr;
 				var cancelButton = (Button)f.Controls.Find("cancelButton", true)[0];
 			 	cancelButton.PerformClick();
