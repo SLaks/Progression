@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SLaks.Progression.Display;
+using SLaks.Progression.Display.WinForms;
 
 namespace SLaks.Progression.Tests {
 	///<summary>Tests the compliance of a MultiProgressReporter with a bunch of reporters.</summary>
 	[TestClass]
 	public class MultiProgressReporterTest : ProgressReporterTestBase {
 		protected override IProgressReporter CreateReporter() {
-			return new Display.MultiProgressReporter(
+			return new MultiProgressReporter(
 				new CancellableDummyReporter(),
 				new EmptyProgressReporter(),
-				new Display.WinForms.ProgressBarReporter(new System.Windows.Forms.ProgressBar())
+				new ProgressBarReporter(new System.Windows.Forms.ProgressBar())
 			);
 		}
 		public override bool SupportsCancellation { get { return true; } }

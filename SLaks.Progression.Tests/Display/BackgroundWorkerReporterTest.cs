@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
+using SLaks.Progression.Display;
 
 namespace SLaks.Progression.Tests {
 	[TestClass]
 	public class BackgroundWorkerReporterTest : ProgressReporterTestBase {
 		protected override IProgressReporter CreateReporter() {
-			return new Display.BackgroundWorkerReporter(new BackgroundWorker());
+			return new BackgroundWorkerReporter(new BackgroundWorker());
 		}
 
 		public override bool SupportsCancellation { get { return true; } }
 
 		[TestMethod]
 		public void ProgressWorks() {
-			var bwr = new Display.BackgroundWorkerReporter(new BackgroundWorker());
+			var bwr = new BackgroundWorkerReporter(new BackgroundWorker());
 
 			int workerProgress = -1;
 			bwr.Worker.ProgressChanged += (s, e) => { workerProgress = e.ProgressPercentage; };
@@ -29,7 +30,7 @@ namespace SLaks.Progression.Tests {
 
 		[TestMethod]
 		public void CancellationWorks() {
-			var bwr = new Display.BackgroundWorkerReporter(new BackgroundWorker());
+			var bwr = new BackgroundWorkerReporter(new BackgroundWorker());
 			bwr.AllowCancellation = true;
 			bwr.Worker.CancelAsync();
 			Assert.IsTrue(bwr.WasCanceled);
