@@ -49,6 +49,7 @@
     <Compile Include="Display\BackgroundWorkerReporter.cs" />
     <Compile Include="Display\ConsoleProgressReporter.cs" />
     <Compile Include="Display\MultiProgressReporter.cs" />
+    <Compile Include="Display\NativeMethods.cs" />
     <Compile Include="Display\ScaledProgressReporter.cs" />
     <Compile Include="Display\WinForms\ProgressBarReporter.cs" />
     <Compile Include="Display\WinForms\ProgressForm.cs">

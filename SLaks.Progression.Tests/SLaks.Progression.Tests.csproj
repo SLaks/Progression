@@ -54,6 +54,7 @@
     <Compile Include="Display\BackgroundWorkerReporterTest.cs" />
     <Compile Include="CancellableDummyReporter.cs" />
     <Compile Include="ChildOperationTests.cs" />
+    <Compile Include="Display\ConsoleProgressReporterTest.cs" />
     <Compile Include="Display\EmptyProgressReporterTest.cs" />
     <Compile Include="Display\MultiProgressReporterTest.cs" />
     <Compile Include="Display\ProgressBarReporterTest.cs" />

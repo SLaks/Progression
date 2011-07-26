@@ -9,6 +9,9 @@ namespace SLaks.Progression.Display {
 	///The progress bar is one line tall, or two if configured to show a caption.
 	///</remarks>
 	public class ConsoleProgressReporter : ScaledProgressReporter, IProgressReporter {
+		///<summary>Indicates whether the bar is actually drawn on the console.  If the process had no console when this instance was created, this will be false.</summary>
+		public bool IsVisible { get; private set; }
+
 		#region Settings
 		readonly int originX, originY;
 
@@ -20,10 +23,13 @@ namespace SLaks.Progression.Display {
 		///<param name="showCaption">Whether to show the caption in the above the progress bar in the console.</param>
 		///<param name="width">The width of the bar in characters.</param>
 		public ConsoleProgressReporter(bool showCaption, int width) {
+			ShowCaption = showCaption;
+			IsVisible = NativeMethods.HasConsole;
+			if (!IsVisible) return;
+
 			if (width > Console.BufferWidth)
 				throw new ArgumentOutOfRangeException("width", "Width must fit within the console window.");
 
-			ShowCaption = showCaption;
 			if (width < 0) {
 				BarWidth = Console.WindowWidth - Console.CursorLeft;
 
@@ -69,7 +75,6 @@ namespace SLaks.Progression.Display {
 		public int BarWidth { get; private set; }
 		#endregion
 
-
 		static IDisposable CursorPosition(int x, int y) {
 			var retVal = CursorPosition();
 			Console.SetCursorPosition(x, y);
@@ -110,6 +115,8 @@ namespace SLaks.Progression.Display {
 			return retVal;
 		}
 		void DrawCaption(string text) {
+			if (!IsVisible) return;
+
 			double edgeWidth = (BarWidth - text.Length) / 2.0;
 			using (CursorPosition(originX, originY)) {
 				Console.Write(new string(' ', (int)Math.Ceiling(edgeWidth)));
@@ -128,6 +135,7 @@ namespace SLaks.Progression.Display {
 
 		///<summary>Draws the progress bar to the console.</summary>
 		protected override void UpdateBar(int? oldValue, int? newValue) {
+			if (!IsVisible) return;
 			int barY = originY;
 			if (ShowCaption) barY++;
 
@@ -176,7 +184,8 @@ namespace SLaks.Progression.Display {
 		bool wasAlreadyCanceled;
 		///<summary>Indicates whether the user has cancelled the operation.</summary>
 		public bool WasCanceled {
-			get { return AllowCancellation && wasAlreadyCanceled || (wasAlreadyCanceled = Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.C); }
+			get { return AllowCancellation && IsVisible 
+					 && (wasAlreadyCanceled || (wasAlreadyCanceled = Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.C)); }
 		}
 	}
 }
