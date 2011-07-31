@@ -36,6 +36,7 @@
     <DocumentationFile>bin\Release\SLaks.Progression.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -50,6 +51,7 @@
     <Compile Include="Display\ConsoleProgressReporter.cs" />
     <Compile Include="Display\MultiProgressReporter.cs" />
     <Compile Include="Display\NativeMethods.cs" />
+    <Compile Include="Display\ProgressModel.cs" />
     <Compile Include="Display\ScaledProgressReporter.cs" />
     <Compile Include="Display\WinForms\ProgressBarReporter.cs" />
     <Compile Include="Display\WinForms\ProgressForm.cs">

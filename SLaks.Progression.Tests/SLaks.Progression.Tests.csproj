@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -59,9 +60,11 @@
     <Compile Include="Display\MultiProgressReporterTest.cs" />
     <Compile Include="Display\ProgressBarReporterTest.cs" />
     <Compile Include="Display\ProgressFormTest.cs" />
+    <Compile Include="Display\ProgressModelTest.cs" />
     <Compile Include="ProgressOperationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Display\ProgressReporterTestBase.cs" />
+    <Compile Include="PropertyChangedTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SLaks.Progression\SLaks.Progression.csproj">
