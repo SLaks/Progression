@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace SLaks.Progression.Tests {
 	[TestClass]
@@ -53,7 +54,8 @@ namespace SLaks.Progression.Tests {
 			var source = new MemoryStream(bytes);
 			var target = new MemoryStream();
 
-			ProgressOperations.CopyTo(source, target, null);
+			var copied = ProgressOperations.CopyTo(source, target, null);
+			Assert.AreEqual(source.Length, copied);
 			CollectionAssert.AreEqual(bytes, target.ToArray());
 		}
 
@@ -64,6 +66,24 @@ namespace SLaks.Progression.Tests {
 
 			var pr = new EmptyProgressReporter();
 			ProgressOperations.CopyTo(source, Stream.Null, pr);
+			Assert.AreEqual(source.Length, pr.Maximum);
+			Assert.AreEqual(pr.Maximum, pr.Progress);
+		}
+
+		[TestMethod]
+		public void ComputeHashTest() {
+			var bytes = new byte[rand.Next(65536, 1048576)];
+			rand.NextBytes(bytes);
+
+			var source = new MemoryStream(bytes);
+
+			var knownHash = new SHA512Managed().ComputeHash(source);
+			source.Position = 0;
+
+			var pr = new EmptyProgressReporter();
+			var myHash = ProgressOperations.ComputeHash(new SHA512Managed(), source, pr);
+
+			CollectionAssert.AreEqual(knownHash, myHash);
 			Assert.AreEqual(source.Length, pr.Maximum);
 			Assert.AreEqual(pr.Maximum, pr.Progress);
 		}
