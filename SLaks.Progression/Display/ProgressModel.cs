@@ -73,8 +73,12 @@ namespace SLaks.Progression.Display {
 					throw new ArgumentOutOfRangeException("value", "Progress must be between 0 and " + Maximum);
 				progress = value;
 				OnPropertyChanged("Progress");
+				OnPropertyChanged("IsIndeterminate");
 			}
 		}
+
+		///<summary>Indicates whether the operation has a definite progress.</summary>
+		public bool IsIndeterminate { get { return !Progress.HasValue; } }
 
 		bool allowCancellation;
 		bool wasCanceled;
