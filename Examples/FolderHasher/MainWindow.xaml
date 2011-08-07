@@ -1,0 +1,80 @@
+﻿<Window x:Class="FolderHasher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="clr-namespace:FolderHasher"
+        Title="MainWindow" Height="350" Width="525">
+	<Window.Resources>
+		<DataTemplate x:Key="progressUI">
+			<DockPanel MinWidth="100" MinHeight="16">
+				<Button DockPanel.Dock="Right" Command="{Binding CancelCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+					<Image Width="16" Height="16" Source="/Images/Cancel.png" />
+				</Button>
+				<ProgressBar Value="{Binding Progress}" Maximum="{Binding Maximum}" IsIndeterminate="{Binding IsIndeterminate}" />
+			</DockPanel>
+		</DataTemplate>
+		<Style TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		</Style>
+	</Window.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<Label Grid.Row="0">Folder:</Label>
+		<DockPanel Grid.Column="1">
+			<Button DockPanel.Dock="Right" Click="Browse_Click" Content="..." ToolTip="Browse"
+					Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+			<TextBox Name="path" TextChanged="path_TextChanged" />
+		</DockPanel>
+		<Label Grid.Row="1">Hash Algorithm:</Label>
+		<ComboBox Grid.Row="1" Grid.Column="1" Name="hashAlgorithm" />
+
+		<Button Grid.Column="2" Grid.RowSpan="2" Name="go" IsDefault="True"
+				IsEnabled="False" Click="Go_Click" ToolTip="Calculate Hashes" 
+				Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+			<Image Source="Images/Go.png" StretchDirection="DownOnly" />
+		</Button>
+		
+		<ListView Name="list" ItemsSource="{x:Static local:FileHashModel.Sample}" Grid.Row="2" Grid.ColumnSpan="3">
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Path" DisplayMemberBinding="{Binding RelativePath}" />
+					<GridViewColumn Header="Size" >
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding SizeString}" HorizontalAlignment="Right" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Hash">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<ContentPresenter Name="content">
+									<ContentPresenter.ContentTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Path=Result}" />
+										</DataTemplate>
+									</ContentPresenter.ContentTemplate>
+								</ContentPresenter>
+								<DataTemplate.Triggers>
+									<!-- If we don't have a result, show a progress bar-->
+									<DataTrigger Binding="{Binding Result}" Value="{x:Null}">
+										<Setter TargetName="content" Property="ContentTemplate" Value="{StaticResource progressUI}" />
+									</DataTrigger>
+								</DataTemplate.Triggers>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</ListView.View>
+		</ListView>
+	</Grid>
+</Window>
