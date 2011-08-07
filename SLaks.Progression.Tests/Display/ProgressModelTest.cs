@@ -17,7 +17,9 @@ namespace SLaks.Progression.Tests.Display {
 		public void TestPropertyChanged() {
 			PropertyChangedVerifier.TestPropertyChanged(new ProgressModel(),
 				pm => pm.Maximum = 50,
+				pm => pm.ScaledMaximum = 10,
 				pm => pm.Progress = 25,
+				pm => pm.ScaledMaximum = 100,
 				pm => pm.Caption = "abc",
 				pm => pm.AllowCancellation = true,
 				pm => pm.WasCanceled = true,
@@ -58,6 +60,20 @@ namespace SLaks.Progression.Tests.Display {
 				Assert.IsFalse(cancelCommand.CanExecute(parameter));
 
 			} finally { cancelCommand.CanExecuteChanged -= changeHandler; }
+		}
+
+		[TestMethod]
+		public void TestScaledMaximum() {
+			var pm = new ProgressModel();
+			pm.Maximum = 10;
+			pm.Progress = 5;
+
+			pm.ScaledMaximum = 2;
+			Assert.AreEqual(1, pm.ScaledProgress);
+
+			pm.ScaledMaximum = 100;
+			Assert.AreEqual(10, pm.ScaledMaximum);
+			Assert.AreEqual(5, pm.ScaledProgress);
 		}
 	}
 }

@@ -62,6 +62,8 @@ namespace SLaks.Progression.Display {
 				maximum = value;
 				Progress = 0;
 				OnPropertyChanged("Maximum");
+				OnPropertyChanged("ScaledMaximum");
+				OnPropertyChanged("ScaledProgress");
 			}
 		}
 
@@ -69,17 +71,44 @@ namespace SLaks.Progression.Display {
 		public virtual long? Progress {
 			get { return progress; }
 			set {
+				if (progress == value) return;
 				if (value < 0 || value > Maximum)
 					throw new ArgumentOutOfRangeException("value", "Progress must be between 0 and " + Maximum);
+
+				bool wasIndeterminate = IsIndeterminate;
+				double oldScaledProgress = ScaledProgress;
+
 				progress = value;
 				OnPropertyChanged("Progress");
-				OnPropertyChanged("IsIndeterminate");
+				if (wasIndeterminate != IsIndeterminate)
+					OnPropertyChanged("IsIndeterminate");
+				if (oldScaledProgress != ScaledProgress)
+					OnPropertyChanged("ScaledProgress");
 			}
 		}
 
 		///<summary>Indicates whether the operation has a definite progress.</summary>
 		public bool IsIndeterminate { get { return !Progress.HasValue; } }
 
+		double scaledLimit;
+		///<summary>Gets or sets a maximum value to scale the progress to.</summary>
+		public double ScaledMaximum {
+			get { return Math.Min(Maximum, scaledLimit); }
+			set {
+				scaledLimit = value;
+				OnPropertyChanged("ScaledMaximum");
+				OnPropertyChanged("ScaledProgress");
+			}
+		}
+		///<summary>Gets the current progress of the operation, scaled to ScaledMaximum.</summary>
+		public double ScaledProgress {
+			get {
+				if (Progress == null) return 0;
+				if (Maximum <= scaledLimit) return Progress.Value;
+				return ((double)Progress / Maximum) * ScaledMaximum;
+			}
+		}
+		
 		bool allowCancellation;
 		bool wasCanceled;
 		///<summary>Gets or sets whether this operation can be canceled by the user.</summary>
