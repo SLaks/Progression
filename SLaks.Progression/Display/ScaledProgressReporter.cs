@@ -16,7 +16,12 @@ namespace SLaks.Progression.Display {
 
 		private void Update() {
 			int? oldValue = ScaledValue;
-			int? newValue = (int?)((double?)Progress / Maximum * ScaledMax);
+			int? newValue;
+			if (Maximum == 0)
+				newValue = 0;
+			else
+				newValue = (int?)((double?)Progress / Maximum * ScaledMax);
+
 			if (newValue == oldValue) return;
 
 			ScaledValue = newValue ?? -1;
@@ -30,7 +35,7 @@ namespace SLaks.Progression.Display {
 		public virtual long Maximum {
 			get { return maximum; }
 			set {
-				if (value <= 0)
+				if (value < 0)
 					throw new ArgumentOutOfRangeException("value");
 
 				maximum = value;

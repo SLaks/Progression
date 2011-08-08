@@ -60,7 +60,7 @@ namespace SLaks.Progression.Display {
 		public virtual long Maximum {
 			get { return maximum; }
 			set {
-				if (value <= 0)
+				if (value < 0)
 					throw new ArgumentOutOfRangeException("value");
 
 				maximum = value;

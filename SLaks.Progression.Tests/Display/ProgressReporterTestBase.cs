@@ -76,12 +76,13 @@ namespace SLaks.Progression.Tests {
 			Assert.IsNull(pr.Progress);
 		}
 
-		#region Exceptions
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void MaximumCantBe0() {
-			CreateReporter().Maximum = 0;
+		public void MaximumCanBe0() {
+			var pr = CreateReporter();
+			pr.Maximum = 0;
+			Assert.AreEqual(0, pr.Progress);
 		}
+		#region Exceptions
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void MaximumCantBeNegative() {
