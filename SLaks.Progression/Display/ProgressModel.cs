@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SLaks.Progression.Display {
 	///<summary>A WPF ViewModel that reports progress.</summary>
@@ -90,7 +94,7 @@ namespace SLaks.Progression.Display {
 		///<summary>Indicates whether the operation has a definite progress.</summary>
 		public bool IsIndeterminate { get { return !Progress.HasValue; } }
 
-		double scaledLimit;
+		double scaledLimit = 100;
 		///<summary>Gets or sets a maximum value to scale the progress to.</summary>
 		public double ScaledMaximum {
 			get { return Math.Min(Maximum, scaledLimit); }
@@ -108,7 +112,7 @@ namespace SLaks.Progression.Display {
 				return ((double)Progress / Maximum) * ScaledMaximum;
 			}
 		}
-		
+
 		bool allowCancellation;
 		bool wasCanceled;
 		///<summary>Gets or sets whether this operation can be canceled by the user.</summary>
@@ -147,5 +151,42 @@ namespace SLaks.Progression.Display {
 			if (PropertyChanged != null)
 				PropertyChanged(this, e);
 		}
+
+		#region Source Property
+		///<summary>Identifies the ProgressModel.Source attached dependency property.</summary>
+		public static readonly DependencyProperty SourceProperty = DependencyProperty.RegisterAttached("Source", typeof(ProgressModel), typeof(ProgressModel),
+			new PropertyMetadata(null, OnSourceChanged)
+		);
+
+		///<summary>Gets the value of the Source property for a progress bar.</summary>
+		[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Property only applies to progress bars.")]
+		[AttachedPropertyBrowsableForType(typeof(ProgressBar))]
+		public static ProgressModel GetSource(ProgressBar bar) {
+			if (bar == null) throw new ArgumentNullException("bar");
+			return (ProgressModel)bar.GetValue(SourceProperty);
+		}
+		///<summary>Sets the value of the Source property for a progress bar, binding that progress bar to a ProgressModel instance..</summary>
+		[SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Property only applies to progress bars.")]
+		public static void SetSource(ProgressBar bar, ProgressModel value) {
+			if (bar == null) throw new ArgumentNullException("bar");
+			bar.SetValue(SourceProperty, value);
+		}
+
+		static void OnSourceChanged(object sender, DependencyPropertyChangedEventArgs args) {
+			var bar = sender as ProgressBar;
+			if (bar == null) return;
+
+			var model = args.NewValue as ProgressModel;
+			if (model != null) {
+				bar.SetBinding(ProgressBar.MaximumProperty, new Binding("ScaledMaximum") { Source = model });
+				bar.SetBinding(ProgressBar.ValueProperty, new Binding("ScaledProgress") { Source = model, Mode = BindingMode.OneWay });
+				bar.SetBinding(ProgressBar.IsIndeterminateProperty, new Binding("IsIndeterminate") { Source = model });
+			} else {
+				bar.ClearValue(ProgressBar.MaximumProperty);
+				bar.ClearValue(ProgressBar.ValueProperty);
+				bar.ClearValue(ProgressBar.IsIndeterminateProperty);
+			}
+		}
+		#endregion
 	}
 }

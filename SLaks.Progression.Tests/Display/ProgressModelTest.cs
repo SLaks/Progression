@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SLaks.Progression.Display;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace SLaks.Progression.Tests.Display {
 	[TestClass]
@@ -74,6 +75,20 @@ namespace SLaks.Progression.Tests.Display {
 			pm.ScaledMaximum = 100;
 			Assert.AreEqual(10, pm.ScaledMaximum);
 			Assert.AreEqual(5, pm.ScaledProgress);
+		}
+
+		[TestMethod]
+		public void TestSourceProperty() {
+			var pm = new ProgressModel { Progress = 50, ScaledMaximum = 2 };
+
+			var bar = new ProgressBar();
+			ProgressModel.SetSource(bar, pm);
+			Assert.AreEqual(1, bar.Value);
+			Assert.AreEqual(2, bar.Maximum);
+
+			pm.Progress = null;
+
+			Assert.AreEqual(true, bar.IsIndeterminate);
 		}
 	}
 }
