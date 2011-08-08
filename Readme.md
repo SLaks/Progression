@@ -5,7 +5,7 @@ Progression is an open-source library for reporting progress.
 
  - **Clean design** &ndash; Progression encourages strict separation between functions in the business layer that report progress, and UI code that displays the progress.
 
- - **Flexible** &ndash; Progression includes a number of built-in progress reporters suitable for most situtations.  If they don't suit your needs, you can [create your own](https://github.com/SLaks/Progression/wiki/Extending-the-Library).
+ - **Flexible** &ndash; Progression includes a number of built-in progress reporters suitable for most situations, including console applications as well as WPF and WinForms UIs.  If they don't suit your needs, you can [create your own](https://github.com/SLaks/Progression/wiki/Extending-the-Library).
 
  - **Robust** &ndash; Progression includes more than 75 unit tests to make sure that every part of the library works correctly.
 
