@@ -31,7 +31,6 @@ namespace SLaks.Progression.Display {
 		protected abstract void UpdateBar(int? oldValue, int? newValue);
 
 		///<summary>Gets or sets the progress value at which the operation will be completed.</summary>
-		///<remarks>Setting this property will reset Progress to 0.</remarks>
 		public virtual long Maximum {
 			get { return maximum; }
 			set {

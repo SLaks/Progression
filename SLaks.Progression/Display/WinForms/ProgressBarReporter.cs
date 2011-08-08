@@ -24,7 +24,7 @@ namespace SLaks.Progression.Display.WinForms {
 		///<summary>Gets the maximum that the progress bar's value will be scaled to.</summary>
 		protected override int ScaledMax { get { return Bar.Maximum; } }
 
-		///<summary>Gets or sets the progress value at which the operation will be completed, or -1 to display a marquee.</summary>
+		///<summary>Gets or sets the progress value at which the operation will be completed.</summary>
 		public override long Maximum {
 			get { return base.Maximum; }
 			set {
