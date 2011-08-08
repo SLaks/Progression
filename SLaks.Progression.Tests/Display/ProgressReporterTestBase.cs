@@ -61,12 +61,12 @@ namespace SLaks.Progression.Tests {
 		}
 
 		[TestMethod]
-		public void MaximumResetsProgress() {
+		public void MaximumCapsProgress() {
 			var pr = CreateReporter();
 
 			pr.Progress = 50;
-			pr.Maximum = 78;
-			Assert.AreEqual(0, pr.Progress, "Setting Maximum should reset progress to 0");
+			pr.Maximum = 20;
+			Assert.AreEqual(20, pr.Progress, "Setting Maximum to a value lower than the current progress should adjust the progress.");
 		}
 
 		[TestMethod]

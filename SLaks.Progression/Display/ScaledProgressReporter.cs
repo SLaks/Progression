@@ -34,7 +34,7 @@ namespace SLaks.Progression.Display {
 					throw new ArgumentOutOfRangeException("value");
 
 				maximum = value;
-				progress = 0;
+				if (Progress > value) progress = value;
 				Update();
 			}
 		}

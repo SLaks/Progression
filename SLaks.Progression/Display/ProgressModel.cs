@@ -64,9 +64,10 @@ namespace SLaks.Progression.Display {
 					throw new ArgumentOutOfRangeException("value");
 
 				maximum = value;
-				Progress = 0;
+				if (Progress > value) progress = value;
 				OnPropertyChanged("Maximum");
 				OnPropertyChanged("ScaledMaximum");
+				OnPropertyChanged("Progress");
 				OnPropertyChanged("ScaledProgress");
 			}
 		}

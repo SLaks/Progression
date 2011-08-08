@@ -25,19 +25,19 @@ namespace SLaks.Progression {
 		long maximum = 100;
 		long? progress = 0;
 		///<summary>Gets or sets the progress value at which the operation will be completed.  This property has no effect.</summary>
-		public virtual long Maximum {
+		public long Maximum {
 			get { return maximum; }
 			set {
 				if (value <= 0)
 					throw new ArgumentOutOfRangeException("value");
 
 				maximum = value;
-				progress = 0;
+				if (Progress > value) progress = value;
 			}
 		}
 
 		///<summary>Gets or sets the current progress, between 0 and Maximum.  This property has no effect.</summary>
-		public virtual long? Progress {
+		public long? Progress {
 			get { return progress; }
 			set {
 				if (value < 0 || value > Maximum)

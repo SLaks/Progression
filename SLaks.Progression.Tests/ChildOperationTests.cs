@@ -40,8 +40,8 @@ namespace SLaks.Progression.Tests {
 
 			Assert.AreEqual(300, parent.Progress, "Parent.Progress == baseProgress + Child.Progress");
 
-			child.Maximum = 3;
-			Assert.AreEqual(150, parent.Progress, "Resetting child should reset Parent.Progress to base");
+			child.Maximum = 50;
+			Assert.AreEqual(200, parent.Progress, "Clipping the child's progress through its maximum should update the parent's progress");
 		}
 		[TestMethod]
 		public void MarqueeIsIgnored() {
@@ -94,8 +94,8 @@ namespace SLaks.Progression.Tests {
 
 			Assert.AreEqual(250, parent.Progress, "Parent.Progress == baseProgress + Child.Progress");
 
-			child.Maximum = 3;
-			Assert.AreEqual(150, parent.Progress, "Resetting child should reset Parent.Progress to base");
+			child.Maximum = 50;
+			Assert.AreEqual(350, parent.Progress, "Clipping the child's progress through its maximum should fill the progress range");
 		}
 		[TestMethod]
 		public void MarqueeIsIgnored() {

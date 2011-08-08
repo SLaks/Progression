@@ -61,7 +61,7 @@ namespace SLaks.Progression {
 						throw new ArgumentOutOfRangeException("value");
 
 					maximum = value;
-					Progress = 0;
+					if (Progress > value) Progress = value;
 				}
 			}
 
